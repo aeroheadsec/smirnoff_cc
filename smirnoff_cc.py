@@ -36,6 +36,11 @@ def compile_for_platform(platform, source_file):
     cmd.append(source_file)
 
     subprocess.run(cmd, check=True)
+    
+    # Make the compiled binary executable
+    if os_name != 'windows':
+        binary_path = os.path.join(BINARIES_DIR, output_filename)
+        os.chmod(binary_path, 0o755)  # Set executable permissions
 
 def main():
     print(colorama.Fore.LIGHTRED_EX + SMIRNOFF)
