@@ -1,4 +1,4 @@
-# smirnoff_cc
+# Smirnoff Cross Compiler
 Smirnoff is a cross compiler for golang made in python. Cross compile for Windows, Mac, Linux and FreeBSD.
 # How do I use it?
 It's as simple as running:
