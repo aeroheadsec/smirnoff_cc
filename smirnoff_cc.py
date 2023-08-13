@@ -10,7 +10,7 @@ import subprocess
 
 ## You can add much architectures as you want, to see what archs you can compile for, run:
 ## go tool dist list
-ALL_PLATFORMS = ['darwin/amd64', 'linux/amd64', 'linux/386', 'linux/arm', 'freebsd/amd64', 'freebsd/386', 'windows/amd64', 'windows/386', 'linux/arm64', 'linux/mips', 'linux/mips64', 'linux/mips64le', 'linux/mipsle', 'ppc64']
+ALL_PLATFORMS = ['darwin/amd64', 'linux/amd64', 'linux/386', 'linux/arm', 'freebsd/amd64', 'freebsd/386', 'windows/amd64', 'windows/386', 'linux/arm64', 'linux/mips', 'linux/mips64', 'linux/mips64le', 'linux/mipsle', 'linux/ppc64']
 BINARIES_DIR = 'BINARIES'
 
 SMIRNOFF = r'''
@@ -28,13 +28,13 @@ https://github.com/dharmade/smirnoff_cc
 
 def compile_for_platform(platform, source_file):
     os.makedirs(BINARIES_DIR, exist_ok=True)
-
     os_name, arch = platform.split('/')
     output_ext = '.exe' if os_name == 'windows' else '.bin'
     output_filename = f'{os_name}_{arch}{output_ext}'
-    
-    cmd = ['go', 'build', '-o', os.path.join(BINARIES_DIR, output_filename)]
-    cmd.extend(['-v', '-x', '-ldflags', '-s -w'])  # Additional compiler flags if needed
+    if os_name == "windows":
+        cmd = ['env', f'GOARCH={arch}', f'GOOS={os_name}', 'go', 'build', '-o', os.path.join(BINARIES_DIR, output_filename)]
+    else:
+        cmd = ['env', f'GOARCH={arch}', f'GOOS={os_name}', 'go', 'build', '-o', os.path.join(BINARIES_DIR, output_filename)]
     cmd.append(source_file)
 
     subprocess.run(cmd, check=True)
@@ -45,7 +45,7 @@ def compile_for_platform(platform, source_file):
         os.chmod(binary_path, 0o755)  # Set executable permissions
 
 def main():
-    print(colorama.Fore.LIGHTRED_EX + SMIRNOFF)
+    print(colorama.Fore.RED + SMIRNOFF)
     
     source_file = input("Enter the filename of the Go source script: " + colorama.Fore.WHITE)
     
@@ -54,7 +54,7 @@ def main():
         compile_for_platform(platform, source_file)
         print(f"{colorama.Fore.GREEN}Compilation for {platform} complete.")
 
-    print(f"\n\n{colorama.Fore.GREEN}Cross compilation has been complete! See {BINARIES_DIR}/ to view compiled executables!{colorama.Fore.WHITE}")
+    print(f"\n\n{colorama.Fore.GREEN}Cross compilation has been complete! See {BINARIES_DIR}/ to view compiled executables!{colorama.Fore.WHITE}\n\n")
 
 if __name__ == '__main__':
     main()
