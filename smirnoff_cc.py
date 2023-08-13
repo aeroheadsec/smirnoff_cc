@@ -8,7 +8,7 @@ import os
 import colorama
 import subprocess
 
-## You can ass much architectures as you want, to see what archs you can compile for, run:
+## You can add much architectures as you want, to see what archs you can compile for, run:
 ## go tool dist list
 ALL_PLATFORMS = ['darwin/amd64', 'linux/amd64', 'linux/386', 'linux/arm', 'freebsd/amd64', 'freebsd/386', 'windows/amd64', 'windows/386', 'linux/arm64', 'linux/mips', 'linux/mips64', 'linux/mips64le', 'linux/mipsle', 'ppc64']
 BINARIES_DIR = 'BINARIES'
