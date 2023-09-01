@@ -22,7 +22,7 @@ SMIRNOFF = r'''
                                                                      
 Compile your Golang scrips for Windows, Mac, Linux and FreeBSD operating systems.
 
-https://github.com/dharmade/smirnoff_cc
+https://github.com/aeroheadsec/smirnoff_cc
 
 '''
 
